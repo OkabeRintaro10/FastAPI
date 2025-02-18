@@ -1,0 +1,59 @@
+*.py ident=lf
+*.txt ident=lf
+*.html ident=lf
+*.js ident=lf
+*.json ident=lf
+*.yml ident=lf
+*.yaml ident=lf
+*.md ident=lf
+*.lock text eol=lf
+*.env text eol=lf
+*.toml text eol=lf
+*.ini text eol=lf
+
+# Alembic migrations
+alembic.ini text eol=lf
+versions/*.py ident=lf
+
+# Static files
+static/* binary
+static/**/*.js ident=lf
+static/**/*.css ident=lf
+static/**/*.html ident=lf
+
+# Tests
+tests/*.py ident=lf
+
+# Documentation
+docs/**/*.md ident=lf
+docs/**/*.rst ident=lf
+docs/**/*.html ident=lf
+
+# IDE and editor configuration
+.vscode/* text eol=lf
+.idea/* text eol=lf
+
+# Python bytecode
+*.pyc binary
+__pycache__/* binary
+*.pyo binary
+*.pyd binary
+
+# Distribution files
+dist/* binary
+build/* binary
+*.egg-info/* binary
+*.whl binary
+
+# Virtual environment files
+venv/* binary
+.venv/* binary
+env/* binary
+.env/* binary
+
+# macOS specific files
+.DS_Store binary
+
+# Git specific files
+.gitattributes text eol=lf
+.gitignore text eol=lf

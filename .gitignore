@@ -8,3 +8,25 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Jupyter notebooks
+.ipynb_checkpoints
+
+# Ignoring the .env file
+.env
+.env.examples
+
+#Ignore the code-workspace file
+ToDoList.code-workspace
+
+#SQLite database
+*.db
+
+#Ignore the .vscode folder
+.vscode
+#Ignore the .gitignore file
+.gitignore
+#Ignore the .git folder
+.git
+#Ignore the .DS_Store file
+.DS_Store   
