@@ -1,0 +1,22 @@
+services:
+  todolist:
+    image: todolist
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    # networks:
+    #   - mynetwork
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=testdatabase
+    # networks:
+    #   - mynetwork

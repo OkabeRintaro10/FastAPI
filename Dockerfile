@@ -1,34 +1,28 @@
-# Use a Python image with uv pre-installed
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+# For more information, please refer to https://aka.ms/vscode-docker-python
+FROM python:3-slim
 
-# Install the project into `/app`
+
+# Keeps Python from generating .pyc files in the container
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Turns off buffering for easier container logging
+ENV PYTHONUNBUFFERED=1
+
+# Install pip requirements
+COPY requirements.txt .
+RUN apt-get update && \
+    apt-get install -y python3-dev default-libmysqlclient-dev build-essential pkg-config default-mysql-client && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN python -m pip install -r requirements.txt
+
 WORKDIR /app
+COPY . /app
 
-# Enable bytecode compilation
-ENV UV_COMPILE_BYTECODE=1
+# Creates a non-root user with an explicit UID and adds permission to access the /app folder
+# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
 
-# Copy from the cache instead of linking since it's a mounted volume
-ENV UV_LINK_MODE=copy
-
-# Install the project's dependencies using the lockfile and settings
-RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --no-install-project --no-dev
-
-# Then, add the rest of the project source code and install it
-# Installing separately from its dependencies allows optimal layer caching
-ADD . /app
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev
-
-# Place executables in the environment at the front of the path
-ENV PATH="/app/.venv/bin:$PATH"
-
-# Reset the entrypoint, don't invoke `uv`
-ENTRYPOINT []
-
-# Run the FastAPI application by default
-# Uses `fastapi dev` to enable hot-reloading when the `watch` sync occurs
-# Uses `--host 0.0.0.0` to allow access from outside the container
-CMD ["fastapi", "dev", "--host", "0.0.0.0", "app/main.py"]
+# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+CMD ["fastapi", "dev","--host","0.0.0.0","app/main.py"]

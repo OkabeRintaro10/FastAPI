@@ -1,13 +1,19 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from dotenv import load_dotenv
+import os
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"  # SQLite database file
+load_dotenv()
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
-    connect_args={"check_same_thread": False},  # For SQLite
-)
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_NAME = os.getenv("DB_DATABASE")
+
+SQLALCHEMY_DATABASE_URL = "mysql://root:rootpassword@db:3306/testdatabase"
+
+engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
