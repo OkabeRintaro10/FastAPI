@@ -16,6 +16,7 @@ wheels/
 .env
 .env.examples
 .env.db
+*.ini
 #Ignore the code-workspace file
 ToDoList.code-workspace
 

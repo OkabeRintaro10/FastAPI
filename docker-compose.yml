@@ -1,3 +1,4 @@
+
 services:
   todolist:
     image: todolist
@@ -8,15 +9,21 @@ services:
       - 8000:8000
     depends_on:
       - db
-    # networks:
-    #   - mynetwork
+    env_file:
+      - .env
   db:
     image: mysql
     restart: always
     ports:
-      - 3306:3306
+     - 3307:3306
     environment:
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
       - MYSQL_ROOT_PASSWORD=rootpassword
-      - MYSQL_DATABASE=testdatabase
-    # networks:
-    #   - mynetwork
+      - MYSQL_DATABASE=testdb
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+
+  db:

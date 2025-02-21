@@ -41,6 +41,9 @@ class TaskDB(Base):
     __tablename__ = "tasks"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    description = Column(String, index=True)
+    title = Column(
+        String(224),
+        index=True,
+    )
+    description = Column(String(224), index=True)
     completed = Column(Boolean, default=False)
